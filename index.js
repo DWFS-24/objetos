@@ -1,40 +1,45 @@
 console.log('Holi')
 
-function crearUsuario(name, lastName, age, email, job) {
 
-  if( typeof name !== 'string' || name.trim() === '' ) {
-    console.log('El Nombre es invalido.')
-  }
-  if( typeof lastName !== 'string' || lastName.trim() === '' ) {
-    console.log('El Apellido es invalido.')
-  }
-  if( typeof email !== 'string' || email.trim() === '' ) {
-    console.log('El Email es invalido.')
-  }
-  if( typeof job !== 'string' || job.trim() === '' ) {
-    console.log('La ocupacion es invalida.')
-  }
-  if( typeof age !== 'number' || isNaN(age) || age < 0 ) {
-    console.log('La edad es invalida.')
-  }
+
+
+function manejoTienda(inventario) {
   return {
-    nombre: name,
-    apellido: lastName,
-    correo: email,
-    edad: age,
-    ocupacion: job
+    inventario: inventario,
+
+    agregarProducto: function(producto) {
+      if(!producto.nombre || !producto.precio || !producto.cantidad) {
+        console.log('El producto debe tener nombre, precio y cantidad.')
+      }
+      this.inventario.push(producto)
+    },
+
+    eliminarProducto: function(nombre) {
+      const indice = this.inventario.findIndex((producto) => producto.nombre === nombre)
+      this.inventario.splice(indice, 1)
+    },
+
+    calcularValorTotal: function() {
+      return this.inventario.reduce(( total, producto ) => total + producto.precio * producto.cantidad, 0)
+    }
   }
 }
 
-const user1 = crearUsuario('fredo', 'hernandez', 29, 'fredo@mail.com', 'Tech Lead')
-const user2 = crearUsuario('Antonio', 'hernandez', 29, 'fredo@mail.com', 'Tech Lead')
-const user3 = crearUsuario('Aseret', 'hernandez', 29, 'fredo@mail.com', 'Tech Lead')
-const user4 = crearUsuario('Nau', 'hernandez', 29, 'fredo@mail.com', 'Tech Lead')
-const user5 = crearUsuario('Lizeth', 'hernandez', 29, 'fredo@mail.com', 'Tech Lead')
-console.log(user1)
-console.log(user2)
-console.log(user3)
-console.log(user4)
-console.log(user5)
+
+const inventarioInicial = [
+  { nombre: 'Jeans', precio: 10, cantidad: 5 },
+  { nombre: 'Sudadera', precio: 15, cantidad: 3 },
+  { nombre: 'Tenis', precio: 15, cantidad: 10 },
+];
+
+const tienda = manejoTienda(inventarioInicial)
+// console.log(tienda.inventario)
+
+tienda.agregarProducto({ nombre: 'Chaqueta', precio: 20, cantidad: 5 })
+// console.log(tienda.inventario)
+
+// tienda.eliminarProducto('Jeans')
 
 
+console.log(tienda.calcularValorTotal())
+console.log(tienda.inventario)
